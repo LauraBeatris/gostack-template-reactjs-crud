@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render, fireEvent, act, wait } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import AxiosMock from 'axios-mock-adapter';
 import api from '../../services/api';
 
@@ -45,7 +45,7 @@ describe('Dashboard', () => {
 
     const { getByText, getByTestId } = render(<Dashboard />);
 
-    await wait(() => expect(getByText('Ao molho')).toBeTruthy(), {
+    await waitFor(() => expect(getByText('Ao molho')).toBeTruthy(), {
       timeout: 200,
     });
 
@@ -128,7 +128,7 @@ describe('Dashboard', () => {
       fireEvent.click(getByTestId('add-food-button'));
     });
 
-    await wait(() => expect(getByText('Ao molho')).toBeTruthy(), {
+    await waitFor(() => expect(getByText('Ao molho')).toBeTruthy(), {
       timeout: 200,
     });
 
@@ -159,7 +159,7 @@ describe('Dashboard', () => {
       <Dashboard />,
     );
 
-    await wait(() => expect(getByText('Ao molho')).toBeTruthy(), {
+    await waitFor(() => expect(getByText('Ao molho')).toBeTruthy(), {
       timeout: 200,
     });
 
@@ -216,7 +216,7 @@ describe('Dashboard', () => {
       fireEvent.click(getByTestId('edit-food-button'));
     });
 
-    await wait(() => expect(getByText('Veggie')).toBeTruthy(), {
+    await waitFor(() => expect(getByText('Veggie')).toBeTruthy(), {
       timeout: 200,
     });
 
@@ -247,7 +247,7 @@ describe('Dashboard', () => {
 
     const { getByText, getByTestId } = render(<Dashboard />);
 
-    await wait(() => expect(getByText('Ao molho')).toBeTruthy(), {
+    await waitFor(() => expect(getByText('Ao molho')).toBeTruthy(), {
       timeout: 200,
     });
 
@@ -282,7 +282,7 @@ describe('Dashboard', () => {
 
     const { getByText, getByTestId } = render(<Dashboard />);
 
-    await wait(() => expect(getByText('Ao molho')).toBeTruthy(), {
+    await waitFor(() => expect(getByText('Ao molho')).toBeTruthy(), {
       timeout: 200,
     });
 
@@ -310,7 +310,7 @@ describe('Dashboard', () => {
       fireEvent.click(getByTestId('change-status-food-1'));
     });
 
-    await wait(() => expect(getByText('Ao molho')).toBeTruthy(), {
+    await waitFor(() => expect(getByText('Ao molho')).toBeTruthy(), {
       timeout: 200,
     });
 
@@ -328,7 +328,7 @@ describe('Dashboard', () => {
       fireEvent.click(getByTestId('change-status-food-1'));
     });
 
-    await wait(() => expect(getByText('Ao molho')).toBeTruthy(), {
+    await waitFor(() => expect(getByText('Ao molho')).toBeTruthy(), {
       timeout: 200,
     });
 

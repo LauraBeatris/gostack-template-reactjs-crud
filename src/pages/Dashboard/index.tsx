@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import Header from '../../components/Header';
 
-import api from '../../services/api';
+import {
+  createFood,
+  deleteFood,
+  editFood,
+  fetchFoods,
+} from '../../services/api';
 
 import Food from '../../components/Food';
 import ModalAddFood from '../../components/ModalAddFood';
@@ -25,32 +30,48 @@ const Dashboard: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  useEffect(() => {
-    async function loadFoods(): Promise<void> {
-      // TODO LOAD FOODS
-    }
+  async function loadFoods(): Promise<void> {
+    const foodsResponse = await fetchFoods();
 
+    setFoods(foodsResponse ?? []);
+  }
+
+  useEffect(() => {
     loadFoods();
   }, []);
 
   async function handleAddFood(
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
-    try {
-      // TODO ADD A NEW FOOD PLATE TO THE API
-    } catch (err) {
-      console.log(err);
-    }
+    const newFood = await createFood(food);
+
+    setFoods(prev => [...prev, newFood ?? {}]);
   }
 
   async function handleUpdateFood(
-    food: Omit<IFoodPlate, 'id' | 'available'>,
+    updateFoodData: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
-    // TODO UPDATE A FOOD PLATE ON THE API
+    const updatedFood = await editFood({
+      ...editingFood,
+      ...updateFoodData,
+    });
+
+    setFoods(prev =>
+      prev.map(food =>
+        food.id === updatedFood.id
+          ? {
+              ...food,
+              ...updatedFood,
+            }
+          : food,
+      ),
+    );
   }
 
   async function handleDeleteFood(id: number): Promise<void> {
-    // TODO DELETE A FOOD PLATE FROM THE API
+    await deleteFood(id);
+
+    setFoods(prev => prev.filter(food => food.id !== id));
   }
 
   function toggleModal(): void {
@@ -62,7 +83,8 @@ const Dashboard: React.FC = () => {
   }
 
   function handleEditFood(food: IFoodPlate): void {
-    // TODO SET THE CURRENT EDITING FOOD ID IN THE STATE
+    toggleEditModal();
+    setEditingFood(food);
   }
 
   return (
